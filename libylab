@@ -1,0 +1,16 @@
+import requests
+
+book = input("Enter a book title: ")
+
+url = "https://openlibrary.org/search.json"
+response = requests.get(url, params={"title": book})
+
+if response.status_code == 200:
+    data = response.json()
+
+    for item in data.get("docs", [])[:5]:
+        print("Title:", item.get("title", "Unknown"))
+        print("Author:", ", ".join(item.get("author_name", ["Unknown"])))
+        print("---")
+else:
+    print("Error fetching books.")
